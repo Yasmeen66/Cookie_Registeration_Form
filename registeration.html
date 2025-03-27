@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            margin: 150px auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="button"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        label {
+            margin-left: 5px;
+        }
+
+        .radio-group {
+            margin: 10px 0;
+        }
+
+        #cookieDisplay {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 18px;
+            color: #333;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            margin: 10px 150px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registration</h2>
+        <input type="text" id="username" name="username" placeholder="Enter username">
+        <div class="radio-group">
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label>
+        
+        <input type="color" id="textColor" name="textColor"></div>
+        <input type="button" value="Register" onclick="saveInfo()">
+        <input type="button" value="Show Cookies" onclick="showCookies()">
+        <input type="button" value="Delete All" onclick="deleteAll()">
+        <div id="cookieDisplay"></div>
+    </div>
+    <script src="cookie.js"></script>
+    <script>
+        function saveInfo() {
+            var username = document.getElementById("username").value;
+            var gender = document.querySelector('input[name="gender"]:checked')?.value;
+            var color = document.getElementById("textColor").value;
+
+            if (!username || !gender) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            var expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 1);
+
+            setCookie("username", username, expiryDate);
+            setCookie("gender", gender, expiryDate);
+            setCookie("color", color, expiryDate);
+
+
+
+            // Handling visits
+            var visits = getCookie("visits") || 0;
+            setCookie("visits", parseInt(visits) + 1, expiryDate);
+
+            window.location.href = "profile.html";
+        }
+
+        function showCookies() {
+            var cookieList = allCookieList();
+            var display = document.getElementById("cookieDisplay");
+            display.innerHTML = "<h3>Current Cookies:</h3><ul>";
+            for (var i = 0; i < cookieList.length; i++)
+            {
+                display.innerHTML += `<li>${cookieList[i]}</li>`;
+            }
+            display.innerHTML += "</ul>";
+        }
+
+        function deleteAll() {
+            deleteCookie("username");
+            deleteCookie("gender");
+            deleteCookie("color");
+            deleteCookie("visits");
+            var display = document.getElementById("cookieDisplay");
+            display.innerHTML = "<p>All cookies deleted.</p>";
+        }
+    </script>
+</body>
+</html>

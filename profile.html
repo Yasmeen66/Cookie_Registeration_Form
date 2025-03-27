@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        #profile {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 400px;
+            margin-top: 150px;
+            margin-left: 500px;
+        }
+
+        h2 {
+            margin: 10px 0;
+        }
+
+        img {
+            border-radius: 50%;
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 1em;
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="profile"></div>
+
+    <script src="cookie.js"></script>
+    <script>
+        setInterval(function() {
+            var username = getCookie("username");
+            if (!username) {
+                window.location.href = "registeration.html";
+                return;
+            }
+
+            var gender = getCookie("gender");
+            var color = getCookie("color");
+            var visits = getCookie("visits");
+
+            const profileHtml = `
+                <h2 style="color: ${color}">Welcome ${username}!</h2>
+                <img src="${gender === 'male' ? '/1.jpg' : '/2.jpg'}" 
+                     width="100" height="100" alt="Profile Picture"><br>
+                <p style="color: ${color}">Number of visits: ${visits}</p>
+                <button onclick="window.location.href='registeration.html'">Back to Registration</button>
+            `;
+
+            document.getElementById("profile").innerHTML = profileHtml;
+        }, 1000);
+    </script>
+</body>
+</html>
